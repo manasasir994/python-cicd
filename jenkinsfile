@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Source code checkout'
+            }
+        }
+
+        stage('Compilation') {
+            steps {
+                bat 'python -m py_compile app.py'
+            }
+        }
+
+        stage('Testing') {
+            steps {
+                bat 'python -m unittest test_app.py'
+            }
+        }
+
+        stage('Packaging') {
+            steps {
+                bat 'powershell Compress-Archive -Path app.py -DestinationPath app.zip -Force'
+            }
+        }
+    }
+}
